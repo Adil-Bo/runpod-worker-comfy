@@ -24,6 +24,7 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 # Change working directory to ComfyUI
 WORKDIR /comfyui
 
+
 # Install ComfyUI dependencies
 RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
     && pip3 install --no-cache-dir xformers==0.0.21 \
@@ -31,6 +32,23 @@ RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https:/
 
 # Install runpod
 RUN pip3 install runpod requests
+
+RUN git clone https://github.com/ltdrdata/ComfyUI-Manager.git /comfyui/custom_nodes/ComfyUI-Manager
+WORKDIR /comfyui/custom_nodes/ComfyUI-Manager
+RUN pip3 install -r requirements.txt
+
+RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git /comfyui/custom_nodes/comfyui_controlnet_aux
+WORKDIR /comfyui/custom_nodes/comfyui_controlnet_aux
+RUN pip3 install -r requirements.txt
+
+
+RUN git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git /comfyui/custom_nodes/ComfyUI_IPAdapter_plus
+
+RUN git clone https://github.com/cubiq/ComfyUI_InstantID.git /comfyui/custom_nodes/ComfyUI_InstantID
+WORKDIR /comfyui/custom_nodes/ComfyUI_InstantID
+RUN pip3 install -r requirements.txt
+
+WORKDIR /comfyui
 
 ARG SKIP_DEFAULT_MODELS
 # Download checkpoints/vae/LoRA to include in image.
